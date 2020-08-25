@@ -1,0 +1,6 @@
+:exclamation: [Merge Request {{ .MergeRequest.Reference }}]({{ .MergeRequest.WebURL }}): _{{ .MergeRequest.Title }}_
+Created: *{{ .TimeSinceCreatedStr }}* ago
+Last updated: *{{ .TimeSinceUpdatedStr }}* ago
+Participants: *{{ len .Participants }}*
+Upvotes: *{{ .MergeRequest.Upvotes }}*
+Needs review. Please take a look at this MR {{ default "@all" .MergeRequestReviewMention }}

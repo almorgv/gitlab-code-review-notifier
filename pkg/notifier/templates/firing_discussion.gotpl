@@ -1,0 +1,5 @@
+:exclamation: [Discussion requires actions]({{ printf "%s#note_%d" .MergeRequest.WebURL .LastNote.ID }}) for *{{ .TimePassedStr }}* from users
+{{- range .Participants }}
+- @{{ .Username }}
+{{- end }}
+in [Merge Request {{ .MergeRequest.Reference }}]({{ .MergeRequest.WebURL }}): _{{ .MergeRequest.Title }}_

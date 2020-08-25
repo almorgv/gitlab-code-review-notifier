@@ -1,0 +1,5 @@
+:exclamation: [Merge Request {{ .MergeRequest.Reference }}]({{ .MergeRequest.WebURL }}): _{{ .MergeRequest.Title }}_
+Created: *{{ .TimeSinceCreatedStr }}* ago
+Last updated: *{{ .TimeSinceUpdatedStr }}* ago
+Upvotes: *{{ .MergeRequest.Upvotes }}*
+MR is considered stale. Actions required immediately from {{ default "@all" .MergeRequestOldMention }}
