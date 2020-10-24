@@ -1,5 +1,7 @@
 # gitlab-code-review-notifier
 
+Notify about stale merge requests and code review discussions to slack or mattermost channel
+
 ## Install
 
 ### Helm chart
