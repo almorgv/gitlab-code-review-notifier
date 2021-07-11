@@ -1,18 +1,48 @@
 # gitlab-code-review-notifier
 
+![Build](https://github.com/almorgv/gitlab-code-review-notifier/actions/workflows/docker-image.yml/badge.svg?branch=master)
+[![Docker](https://img.shields.io/docker/v/almorgv/gitlab-code-review-notifier?logo=docker&sort=semver)](https://hub.docker.com/r/almorgv/gitlab-code-review-notifier/builds)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/almorgv)](https://artifacthub.io/packages/search?repo=almorgv)
+
 Notify about stale merge requests and code review discussions to slack or mattermost channel
 
 ## Install
 
-### Helm chart
+### Docker image
 
 ```
+docker run -d -p 8080:8080 almorgv/gitlab-code-review-notifier
+```
+
+### Helm chart
+
+See [almorgv/gitlab-code-review-notifier](https://github.com/almorgv/helm-charts/tree/master/gitlab-code-review-notifier)
+helm chart
+
+```
+helm repo add almorgv https://almorgv.github.io/helm-charts/charts
+
 helm install -n gitlab \
 --set ingress.hosts[0].host=gitlab-code-review-notifier.cluster.local \
 --set ingress.hosts[0].paths[0]="/" \
---set gitlabUrl=https://gitlab \
-gitlab-code-review-notifier gitlab-code-review-notifier
+--set gitlabUrl=https://gitlab.com \
+gitlab-code-review-notifier almorgv/gitlab-code-review-notifier
 ```
+
+## Configuration
+Available environment variables
+- `DB_HOST` - **required**
+- `DB_PORT` - **required**
+- `DB_USER` - **required**
+- `DB_PASSWORD` - **required**
+- `DB_NAME` - **required**
+- `GITLAB_URL` - **required**. Example: `https://gitlab.company.local`
+- `TIME_ZONE` - default: `UTC`
+- `WORKDAY_START_AT_HOUR` - default: `10`
+- `WORKDAY_END_AT_HOUR` - default: `19`
+- `SCHEDULER_INTERVAL_MINUTES` -  default: `0`
+- `SCHEDULER_FIXED_TIMES` - disabled if `SCHEDULER_INTERVAL_MINUTES` is set.
+  Example: `10:00:00; 13:00:00; 16:00:00; 18:00:00;`
 
 ## API
 ### GET /clients
@@ -30,7 +60,7 @@ Add new client
 {
   "group_id": 250,
   "gitlab_token": "<YOUR_TOKEN>",
-  "webhook_url": "https://mm/hooks/<YOUR_HOOK>",
+  "webhook_url": "https://mattermost.company.local/hooks/<YOUR_HOOK>",
   "merge_request_old_timeout": "24h",
   "merge_request_old_mention": "@all",
   "merge_request_review_timeout": "4h",
@@ -80,7 +110,7 @@ Request body must contain **all** necessary fields that should be set in existin
 {
   "group_id": 250,
   "gitlab_token": "<YOUR_TOKEN>",
-  "webhook_url": "https://mm/hooks/<YOUR_HOOK>",
+  "webhook_url": "https://mattermost.company.local/hooks/<YOUR_HOOK>",
   "merge_request_old_timeout": "24h",
   "merge_request_old_mention": "@all",
   "merge_request_review_timeout": "4h",
